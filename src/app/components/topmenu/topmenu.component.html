@@ -1,0 +1,14 @@
+<div class="navbar navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid d-flex justify-content-between">
+    <a href="/" class="navbar-brand d-flex align-items-center">
+        <i class="fas fa-poll-h"></i>&nbsp;
+        <strong>Voting Polls App</strong>
+    </a>
+    <button (click)="openModal(template)" class="btn btn-dark btn-sm" *ngIf="!user">
+      Login
+    </button>
+    <button (click)="logOut()" class="btn btn-dark btn-sm" *ngIf="user">
+        {{user.email}} - Logout 
+    </button>      
+  </div>
+</div> 
