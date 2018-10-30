@@ -40,20 +40,33 @@ client.connect((error) => {
         return process.exit(1)
     }
 
+    console.log('Database connected')
+
     const db = client.db('freecodecamp');
     
     app.get('/api/polls',(req,res) => {                
         try{
             findDocuments(db,(docs) => {                
                 res.send(docs);
-                client.close();                
+                //client.close();                                
             });
         }catch(e){
             handleError(e,res);
         }    
     })
+
+    app.get('/api/polls/:_id',(req,res) => {
+        try{        
+            findDocument(db,req.params._id,(response)=>{
+                res.send(response);
+                //client.close();
+            })            
+        }catch(e){
+            handleError(e,response);
+        }
+    })
     
-    app.post('/api/poll/add',(req,res) => {
+    app.post('/api/polls/add',(req,res) => {
         try{        
             insertDocument(db,req.body,(response) => {                
                 res.send(response);
@@ -64,7 +77,7 @@ client.connect((error) => {
         }
     })
 
-    app.delete('/api/poll/delete/:_id',(req,res) => {
+    app.delete('/api/polls/delete/:_id',(req,res) => {
         try{        
             removeDocument(db,req.params._id,(response)=>{
                 res.send(response);
@@ -88,8 +101,20 @@ const findDocuments = function(db, callback) {
     const collection = db.collection('polls');
     // Find some documents
     collection.find({}).toArray(function(err, docs) {
-      assert.equal(err, null);      
+      //assert.equal(err, null); 
+      if (err) console.error(err);     
       callback(docs);
+    });
+  }
+
+  const findDocument = function(db, _id, callback) {
+    // Get the documents collection
+    const collection = db.collection('polls');
+    // Find some documents
+    collection.findOne({"_id" : ObjectID(_id)}, (err, doc) => {
+      //assert.equal(err, null); 
+      if (err) console.error(err);     
+      callback(doc);
     });
   }
 

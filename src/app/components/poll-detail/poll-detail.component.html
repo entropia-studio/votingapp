@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">{{poll.title}}</h1>
+          <div class="row"> 
+            <div class="col-6">
+                <div class="form-check" *ngFor="let item of poll.items;let i = index">
+                    <input class="form-check-input" name="itemsRadios" type="radio" value="item.name" id="check-{{index}}">
+                    <label class="form-check-label" for="check-{{index}}">
+                      {{item.name}}
+                    </label>
+                  </div>
+                  <button (disabled)="true" class="btn btn-primary">Vote</button>
+            </div>
+            <div class="col-6" *ngIf="poll">
+              <app-piechart [data]="data1" [config]="config1" [elementId]="elementId1" ></app-piechart>  
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+

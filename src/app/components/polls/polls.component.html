@@ -1,3 +1,18 @@
-<p>
-  polls works!
-</p>
+<div class="container">
+  <div class="row justify-content-around" *ngIf="polls?.length">
+      <div class="card" *ngFor="let poll of polls">
+          <div class="card-body">
+              <p class="card-text">{{poll.title}}</p>
+              <div class="row">
+              <div class="col-6 d-flex flex-column justify-content-center">
+                  <p class="card-text font-weight-bold">Items: {{poll.items.length}}</p>
+              </div>
+              <div class="col-6 text-right">
+                  <a href="/poll/{{poll._id}}" class="btn btn-primary">View</a>
+              </div>           
+            </div>   
+          </div>
+        </div>
+  </div>
+</div>
+

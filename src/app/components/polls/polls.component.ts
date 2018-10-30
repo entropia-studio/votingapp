@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from '../../services/database.service';
+import { Poll } from '../../interfaces/poll';
 
 @Component({
   selector: 'app-polls',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PollsComponent implements OnInit {
 
-  constructor() { }
+  polls: Array<Poll>;
+  
+  constructor(private db: DatabaseService) { }
+
 
   ngOnInit() {
+    this.db.getPolls().subscribe(polls => {
+      this.polls = polls;
+      console.log('polls',polls)
+    })
   }
 
 }

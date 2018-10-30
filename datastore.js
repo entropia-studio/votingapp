@@ -1,19 +1,23 @@
 require('dotenv').config();
 const moment = require('moment');
+const MongoClient = require('mongodb').MongoClient;
+
 const mongoose = require('mongoose');
 
 var MONGODB_URI = 'mongodb://'+process.env.USER_DB+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
 
-var meetingSchema = mongoose.Schema({      
+
+
+var pollSchema = mongoose.Schema({      
     placeId    : {type: String, required: true, unique: false},
     userId     : {type: String, required: true, unique: false},
     locationId : {type: String, required: true, unique: false},
     date       : {type: Date, required: true, unique: false}
   })
   
-const Meeting = mongoose.model('Meeting',meetingSchema);  
+const Poll = mongoose.model('Poll',meetingSchema);  
 
-function connect(){
+function connectMongoose(){
     return new Promise((resolve,reject) => {
       try{
         mongoose.connect(MONGODB_URI);
@@ -23,10 +27,24 @@ function connect(){
     })
   }
 
-  function addMeeting(req,res){        
+  function connect(){
+    return new Promise((resolve,reject) => {
+      try{
+        MongoClient.connect(MONGODB_URI, function(err, client) {                    
+          //client.close();
+        });        
+      }catch(e){
+        reject(new DataStoreUnknowException("connect",null,e))
+      }
+    })
+  }
+
+
+
+  function addPoll(req,res){        
     return new Promise((resolve,reject) => {
       try{  
-        let meeting = new Meeting(req);
+        let meeting = new Poll(req);
         meeting.save((error,result) => {
           if (error) reject (new DataStoreUnknowException("insert",companyCode,error))
                 resolve(result);
@@ -37,13 +55,13 @@ function connect(){
     })
   }
 
-  function deleteMeeting(_id){
+  function deletePoll(_id){
     return new Promise((resolve,reject) => {
       try{        
-        Meeting.deleteOne({_id: _id})
+        Poll.deleteOne({_id: _id})
             .exec((error,result) => {            
                if (error) reject(error);
-               resolve({'log' : `Meeting ${_id} deleted`});
+               resolve({'log' : `Poll ${_id} deleted`});
             }
         )
       }catch(e){
@@ -52,11 +70,11 @@ function connect(){
     })
   }  
 
-  function getMeetings(){
+  function getPolls(){
       return new Promise((resolve,reject) => {
         try{            
             let today = moment().startOf('day');            
-            Meeting.find({"date": {"$gte": new Date(today.toDate())}})
+            Poll.find({"date": {"$gte": new Date(today.toDate())}})
             .exec((error,result) => {
                 if (error) reject(error);                
                 resolve(result);
@@ -86,7 +104,7 @@ function connect(){
 
   module.exports = {
     connect,
-    addMeeting,    
-    getMeetings,
-    deleteMeeting
+    addPoll,    
+    getPolls,
+    deletePoll
   }
