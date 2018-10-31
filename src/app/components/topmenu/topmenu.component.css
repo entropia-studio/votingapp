@@ -1,3 +1,11 @@
 .navbar{
     margin-bottom: 0.8em;
 }
+
+button{
+    min-width: 7em;
+}
+
+.dropdown-menu{
+    min-width: 7em;
+}

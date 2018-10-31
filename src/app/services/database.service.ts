@@ -20,13 +20,16 @@ export class DatabaseService {
     return location.hostname == 'localhost' ? apiUrl + ':8080/api/polls'  : apiUrl + '/api/polls';
   }
 
-  getPolls(): Observable<Poll[]>{
-    console.log(this.getUrlApi())
+  getPolls(idUser: string | null): Observable<Poll[]>{
+    console.log('idUser',idUser)
+    if (idUser){
+      return this.http.get<Poll[]>(this.getUrlApi() + '/' + idUser);  
+    }
     return this.http.get<Poll[]>(this.getUrlApi());
   }
 
-  getPoll(id: string): Observable<Poll>{
-    return this.http.get<Poll>(this.getUrlApi() + '/' + id);
+  getPoll(idPoll: string): Observable<Poll>{
+    return this.http.get<Poll>(this.getUrlApi() + '/' + idPoll);
   }
 
 }

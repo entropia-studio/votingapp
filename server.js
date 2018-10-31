@@ -44,6 +44,17 @@ client.connect((error) => {
 
     const db = client.db('freecodecamp');
     
+    app.get('/api/polls/:idUser',(req,res) => {                
+        try{
+            findDocumentsByUser(db,req.params.idUser,(docs) => {                
+                res.send(docs);
+                //client.close();                                
+            });
+        }catch(e){
+            handleError(e,res);
+        }    
+    })
+
     app.get('/api/polls',(req,res) => {                
         try{
             findDocuments(db,(docs) => {                
@@ -106,6 +117,18 @@ const findDocuments = function(db, callback) {
       callback(docs);
     });
   }
+
+  const findDocumentsByUser = function(db, idUser, callback) {
+    // Get the documents collection
+    const collection = db.collection('polls');
+    // Find some documents
+    collection.find({'user.0':idUser}).toArray(function(err, docs) {
+      //assert.equal(err, null); 
+      if (err) console.error(err);     
+      callback(docs);
+    });
+  }  
+  
 
   const findDocument = function(db, _id, callback) {
     // Get the documents collection

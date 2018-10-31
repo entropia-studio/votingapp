@@ -6,9 +6,18 @@
     </a>
     <button (click)="openModal(template)" class="btn btn-dark btn-sm" *ngIf="!user">
       Login
-    </button>
-    <button (click)="logOut()" class="btn btn-dark btn-sm" *ngIf="user">
-        {{user.email}} - Logout 
-    </button>      
+    </button> 
+    <div class="btn-group" dropdown *ngIf="user" placement="bottom left">
+      <button id="button-basic" dropdownToggle type="button" class="btn btn-dark dropdown-toggle"
+              aria-controls="dropdown-basic">
+              {{user.username}} <span class="caret"></span>
+      </button>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" href="/poll/new">New poll</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="/polls/{{user.id}}">My polls</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="#" (click)="logOut()">Logout</a></li>        
+      </ul>
+    </div>     
   </div>
 </div> 
