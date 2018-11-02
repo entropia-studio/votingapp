@@ -10,6 +10,9 @@ import { PollsComponent } from './components/polls/polls.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HttpClientModule }    from '@angular/common/http';
 import { PollDetailComponent } from './components/poll-detail/poll-detail.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
 
 import { GooglePieChartService } from './services/google-pie-chart.service';
 import { PiechartComponent } from './components/piechart/piechart.component';
@@ -18,7 +21,7 @@ import { PiechartComponent } from './components/piechart/piechart.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { LoginComponent } from './components/login/login.component';
+
 
 // ngx modules
 
@@ -37,12 +40,10 @@ import { PollAddComponent } from './components/poll-add/poll-add.component';
     PollsComponent,
     NotFoundComponent,
     PollDetailComponent,
-    PiechartComponent,
-    LoginComponent,    
+    PiechartComponent,        
     PollAddComponent,
     
-  ],
-  entryComponents: [LoginComponent],
+  ],  
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -52,7 +53,9 @@ import { PollAddComponent } from './components/poll-add/poll-add.component';
     AngularFireModule.initializeApp(environment.firebase),   
     AngularFirestoreModule, 
     AngularFireAuthModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [GooglePieChartService],
   bootstrap: [AppComponent]
