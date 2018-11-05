@@ -47,8 +47,7 @@ client.connect((error) => {
     app.get('/api/polls/:idUser',(req,res) => {                
         try{
             findDocumentsByUser(db,req.params.idUser,(docs) => {                
-                res.send(docs);
-                //client.close();                                
+                res.send(docs);                
             });
         }catch(e){
             handleError(e,res);
@@ -58,19 +57,17 @@ client.connect((error) => {
     app.get('/api/polls',(req,res) => {                
         try{
             findDocuments(db,(docs) => {                
-                res.send(docs);
-                //client.close();                                
+                res.send(docs);                
             });
         }catch(e){
             handleError(e,res);
         }    
     })
 
-    app.get('/api/polls/:_id',(req,res) => {
+    app.get('/api/polls/chart/:idPoll',(req,res) => {
         try{        
-            findDocument(db,req.params._id,(response)=>{
-                res.send(response);
-                //client.close();
+            findDocument(db,req.params.idPoll,(response)=>{
+                res.send(response);                
             })            
         }catch(e){
             handleError(e,response);
@@ -80,8 +77,7 @@ client.connect((error) => {
     app.post('/api/polls/add',(req,res) => {
         try{        
             insertDocument(db,req.body,(response) => {                
-                res.send(response);
-                client.close(); 
+                res.send(response);                
             });
         }catch(e){
             handleError(e,response);
@@ -148,7 +144,7 @@ const insertDocument = function(db,doc,callback){
         assert.equal(err, null);
         assert.equal(1, result.result.n);
         assert.equal(1, result.ops.length);        
-        callback("Inserted document into the collection");
+        callback(result);
     })
 }
 

@@ -1,5 +1,5 @@
 export interface Poll {
-    _id: string;
+    _id?: string;
     title: string;
     user: Array<string>;
     items: Array<Item>;    

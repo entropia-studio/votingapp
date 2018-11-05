@@ -29,7 +29,11 @@ export class DatabaseService {
   }
 
   getPoll(idPoll: string): Observable<Poll>{
-    return this.http.get<Poll>(this.getUrlApi() + '/' + idPoll);
+    return this.http.get<Poll>(this.getUrlApi() + '/chart/' + idPoll);
+  }
+
+  addPoll(poll: Poll): Observable<Poll>{
+    return this.http.post<Poll>(this.getUrlApi() + '/add',poll,httpOptions);
   }
 
 }

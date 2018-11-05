@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Poll } from '../../interfaces/poll';
+import { User } from '../../interfaces/user';
 import { AuthService } from '../../services/auth.service';
+import { DatabaseService } from '../../services/database.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poll-add',
@@ -10,6 +13,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class PollAddComponent implements OnInit {
 
+  user: User;
+  
   pollForm = this.fb.group({
     title: ['',Validators.required],
     items: this.fb.array([
@@ -21,20 +26,29 @@ export class PollAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,  
+    private db: DatabaseService,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.auth.navState$.subscribe( (user)=> {
+      this.user = user;             
+    });
   }
 
   addPoll(){
     
-    const poll = {
-      title: this.pollForm.get('title'),
-      user: [this.auth.user.id,this.auth.user.username]
-    }
-    
-   
-    console.log(poll);
+    const poll: Poll = {
+      title: this.pollForm.get('title').value,
+      user: [this.user.id,this.user.username],
+      items: this.items.value
+    }   
+    this.db.addPoll(poll).subscribe((msg) => {
+      console.log(msg);
+      this.router.navigate(['polls/' + this.user.id]); 
+    },err => {
+      console.error(err);
+    })
   }
 
   addItem(){

@@ -27,7 +27,7 @@ export class PollDetailComponent implements OnInit {
   ngOnInit() {
     const idPoll = this.route.snapshot.paramMap.get('idPoll');
     this.db.getPoll(idPoll).subscribe(poll => {
-      this.poll = poll;
+      this.poll = poll;      
       this.setConfigChart(poll);
     })    
   }
