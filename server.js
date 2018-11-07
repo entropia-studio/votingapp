@@ -84,11 +84,21 @@ client.connect((error) => {
         }
     })
 
+    app.post('/api/polls/update',(req,res) => {
+        try{        
+            updateDocument(db,req.body,(response) => {                
+                console.log(response);
+                res.send(response);                
+            });
+        }catch(e){
+            handleError(e,res);
+        }
+    })
+
     app.delete('/api/polls/delete/:_id',(req,res) => {
         try{        
             removeDocument(db,req.params._id,(response)=>{
-                res.send(response);
-                client.close();
+                res.send(response);                
             })            
         }catch(e){
             handleError(e,response);
@@ -145,6 +155,19 @@ const insertDocument = function(db,doc,callback){
         assert.equal(1, result.result.n);
         assert.equal(1, result.ops.length);        
         callback(result);
+    })
+}
+
+const updateDocument = function(db,doc,callback){
+    // Get the documents collection
+    const collection = db.collection('polls');    
+    collection.updateOne(
+        {'_id': ObjectID(doc._id)},
+        { $set: {items: doc.items}},
+        (err, result) => {
+            assert.equal(err, null);
+            //assert.equal(1, result.result.n);        
+            callback(doc);
     })
 }
 

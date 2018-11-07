@@ -3,17 +3,36 @@
         <div class="container" *ngIf="poll">
           <h1 class="display-4">{{poll.title}}</h1>
           <div class="row"> 
-            <div class="col-6">
-                <div class="form-check" *ngFor="let item of poll.items;let i = index">
-                    <input class="form-check-input" name="itemsRadios" type="radio" value="item.name" id="check-{{index}}">
-                    <label class="form-check-label" for="check-{{index}}">
-                      {{item.name}}
-                    </label>
+            <div class="col-5">
+              <form  [formGroup]="pollForm" (ngSubmit)="updatePoll()">
+                <div class="form-group">                                 
+                  <div class="input-group" *ngFor="let item of poll.items;let i = index">
+                    <div class="input-group-prepend" >
+                      <div class="input-group-text" [ngStyle]="{'background-color' : colors[i]}">
+                        <input type="radio" value="{{i}}" formControlName="item">
+                      </div>
+                    </div>                      
+                   <input type="text" class="form-control" value="{{poll.items[i].name}}" disabled [ngStyle]="{'background-color': 'white'}">
                   </div>
-                  <button (disabled)="true" class="btn btn-primary">Vote</button>
+                  <div class="input-group">
+                    <div class="input-group-prepend" >
+                      <div class="input-group-text">
+                        <input type="radio" value="{{poll.items.length}}" formControlName="item" (click)="checkCustomItem()">
+                      </div>
+                    </div>
+                    <input type="text" class="form-control" value="item_custom.value" formControlName="item_custom" (click)="checkCustomItem()">
+                  </div>                  
+                </div>                
+                <div class="row">
+                  <div class="col" style="margin-top: 1em">
+                      <button (disabled)="true" class="btn btn-primary">Vote</button>
+                  </div>                    
+                </div>
+              </form>
             </div>
-            <div class="col-6" *ngIf="poll">
-              <app-piechart [data]="data1" [config]="config1" [elementId]="elementId1" ></app-piechart>  
+            <div class="col-7" *ngIf="poll">
+              <app-piechart [data]="data1" [config]="config1" [elementId]="elementId1"></app-piechart>  
+              <app-piechart-footer [items]="poll.items" [colors]="colors"></app-piechart-footer>
             </div>
           </div>
         </div>

@@ -15,10 +15,24 @@ export class GooglePieChartService extends GoogleChartsBaseService{
     var chartFunc = () => { return new google.visualization.PieChart(document.getElementById(elementId)); };
     var options = {
             title: config.title,
-            pieHole: config.pieHole,
+            pieHole: config.pieHole,            
+            legend: 'none',
+            slices: this.getSlices(config.colors),
+            backgroundColor: 'none',
+            chartArea:{width:'100%',height:'100%'}
+
       };
 
     this.buildChart(data, chartFunc, options);
+  }
+
+  // Formar the colors array to the Google options format
+  getSlices(colors: string[]){
+    var slices = [];
+    colors.map(color => {
+      slices.push({'color': color});
+    })        
+    return slices;
   }
 
 }

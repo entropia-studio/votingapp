@@ -34,6 +34,7 @@ export class PollAddComponent implements OnInit {
     this.auth.navState$.subscribe( (user)=> {
       this.user = user;             
     });
+    console.log('pollForm',this.pollForm);
   }
 
   addPoll(){
@@ -41,7 +42,7 @@ export class PollAddComponent implements OnInit {
     const poll: Poll = {
       title: this.pollForm.get('title').value,
       user: [this.user.id,this.user.username],
-      items: this.items.value
+      items: this.getItemsArray(this.items.value)
     }   
     this.db.addPoll(poll).subscribe((msg) => {
       console.log(msg);
@@ -59,6 +60,17 @@ export class PollAddComponent implements OnInit {
     const index = this.items.length - 1;
     if (index < 2) return;
     this.items.removeAt(index);
+  }
+
+  getItemsArray(items: Array<string>){
+    var mItems = [];
+    items.forEach(item => {
+      mItems.push({
+        name: item,
+        votes: []
+      })
+    })
+    return mItems;
   }
 
   get items(){

@@ -29,6 +29,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PollAddComponent } from './components/poll-add/poll-add.component';
+import { PiechartFooterComponent } from './components/piechart-footer/piechart-footer.component';
 
 
 
@@ -41,7 +42,7 @@ import { PollAddComponent } from './components/poll-add/poll-add.component';
     NotFoundComponent,
     PollDetailComponent,
     PiechartComponent,        
-    PollAddComponent,
+    PollAddComponent, PiechartFooterComponent,
     
   ],  
   imports: [

@@ -36,4 +36,8 @@ export class DatabaseService {
     return this.http.post<Poll>(this.getUrlApi() + '/add',poll,httpOptions);
   }
 
+  updatePoll(poll: Poll): Observable<Poll>{
+    return this.http.post<Poll>(this.getUrlApi() + '/update',poll,httpOptions);
+  }
+
 }

@@ -28,15 +28,15 @@ export class TopmenuComponent implements OnInit {
 
     this.afAuth.user.subscribe((state) => {            
       if (state && !this.user){    
-        console.log('state',state)    
+        //console.log('state',state)    
         this.user = {id: state.uid, email: state.email, username: state.displayName};
         this.auth.navStateSource.next(this.user);
+        this.auth.user = this.user;
       }            
     })    
   }
 
-  openModal(template: TemplateRef<any>) {
-    //this.modalRef = this.modalService.show(LoginComponent);
+  openModal(template: TemplateRef<any>) {    
     this.auth.loginTwitter();
   }
 

@@ -1,0 +1,6 @@
+<div class="colors" *ngIf="items">
+  <li *ngFor="let item of items;let i = index">
+    <span class="fas fa-square" [ngStyle]="{'color': colors[i]}"></span>
+    {{item.name}}
+  </li>
+</div>

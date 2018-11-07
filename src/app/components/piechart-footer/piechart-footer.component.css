@@ -1,0 +1,9 @@
+.colors{
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    flex-wrap: wrap;
+    flex-direction: row;
+    font-size: 0.7em;
+    margin-top: 1.5em;    
+}
