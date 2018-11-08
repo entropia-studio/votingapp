@@ -16,6 +16,8 @@ import { AuthService } from '../../services/auth.service';
 export class PollDetailComponent implements OnInit {
 
   poll: Poll;
+  pollFormValid: boolean = false;
+  errors: boolean = false;
   colors: Array<string>;
   item_custom_text: string = 'Type your own option';
 
@@ -34,7 +36,9 @@ export class PollDetailComponent implements OnInit {
     private db: DatabaseService,
     private colorService: ColorService,
     private fb: FormBuilder,    
-  ) { }
+  ) {
+    
+  }
 
   ngOnInit() {
     
@@ -68,6 +72,13 @@ export class PollDetailComponent implements OnInit {
     // Custom item, last option
     if (item_num == this.poll.items.length){
       var item_custom = this.pollForm.get('item_custom').value;
+      // Check if the item_custom has any value
+      if (item_custom == '') {
+        this.errors = true;
+        return;
+      }else{
+        this.errors = false;
+      }         
       this.poll.items.push({
         name: item_custom,
         votes: [this.auth.user.id]
@@ -78,7 +89,7 @@ export class PollDetailComponent implements OnInit {
         this.poll.items[item_num].votes.push(this.auth.user.id);
       }else{
         this.poll.items[item_num].votes = [this.auth.user.id];
-      }  
+      }        
     }   
     this.db.updatePoll(this.poll).subscribe((poll) => {      
       this.setConfigChart(poll); 
@@ -87,9 +98,13 @@ export class PollDetailComponent implements OnInit {
   }  
 
   checkCustomItem(){
-    var custom_text = 
-      this.item_custom.value == this.item_custom_text ? '' : this.item_custom.value;
-    this.item_custom.setValue(custom_text);
+    if (this.item_custom.value == this.item_custom_text){
+      this.item_custom.setValue('');
+      this.pollFormValid = false;
+    }else{
+      this.item_custom.setValue(this.item_custom.value);
+      this.pollFormValid = true;
+    }
   }
 
   get items(){

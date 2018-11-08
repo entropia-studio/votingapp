@@ -18,8 +18,8 @@ export class PollAddComponent implements OnInit {
   pollForm = this.fb.group({
     title: ['',Validators.required],
     items: this.fb.array([
-      this.fb.control('123'),
-      this.fb.control('456')
+      this.fb.control('',[Validators.required]),
+      this.fb.control('',[Validators.required])
     ])
   })
 
@@ -53,7 +53,7 @@ export class PollAddComponent implements OnInit {
   }
 
   addItem(){
-    this.items.push(this.fb.control(''));    
+    this.items.push(this.fb.control('',[Validators.required]));    
   }
 
   removeItem(){    

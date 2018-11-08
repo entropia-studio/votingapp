@@ -2,6 +2,9 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container" *ngIf="poll">
           <h1 class="display-4">{{poll.title}}</h1>
+          <alert type="danger" [hidden]="!errors">
+            <strong>Please, type a custom item before vote</strong>
+          </alert>
           <div class="row"> 
             <div class="col-5">
               <form  [formGroup]="pollForm" (ngSubmit)="updatePoll()">
@@ -9,7 +12,7 @@
                   <div class="input-group" *ngFor="let item of poll.items;let i = index">
                     <div class="input-group-prepend" >
                       <div class="input-group-text" [ngStyle]="{'background-color' : colors[i]}">
-                        <input type="radio" value="{{i}}" formControlName="item">
+                        <input type="radio" value="{{i}}" formControlName="item" (click)="pollFormValid = true">
                       </div>
                     </div>                      
                    <input type="text" class="form-control" value="{{poll.items[i].name}}" disabled [ngStyle]="{'background-color': 'white'}">
@@ -25,7 +28,7 @@
                 </div>                
                 <div class="row">
                   <div class="col" style="margin-top: 1em">
-                      <button (disabled)="true" class="btn btn-primary">Vote</button>
+                      <button [disabled]="!pollFormValid" class="btn btn-primary">Vote</button>
                   </div>                    
                 </div>
               </form>

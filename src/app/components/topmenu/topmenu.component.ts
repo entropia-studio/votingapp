@@ -1,6 +1,4 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../../interfaces/user';
@@ -11,12 +9,10 @@ import { User } from '../../interfaces/user';
   styleUrls: ['./topmenu.component.css']
 })
 export class TopmenuComponent implements OnInit {
-
-  modalRef: BsModalRef;
+    
   user: User;
 
-  constructor(
-    private modalService: BsModalService,
+  constructor(    
     private auth: AuthService,
     private afAuth: AngularFireAuth,
   ) { }

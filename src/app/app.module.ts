@@ -24,10 +24,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
 // ngx modules
-
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { AlertModule } from 'ngx-bootstrap/alert';
+
 import { PollAddComponent } from './components/poll-add/poll-add.component';
 import { PiechartFooterComponent } from './components/piechart-footer/piechart-footer.component';
 
@@ -48,13 +47,12 @@ import { PiechartFooterComponent } from './components/piechart-footer/piechart-f
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ModalModule.forRoot(),
-    TabsModule.forRoot(),
+    AlertModule.forRoot(),
+    BsDropdownModule.forRoot(),    
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),   
     AngularFirestoreModule, 
-    AngularFireAuthModule,
-    BsDropdownModule.forRoot(),
+    AngularFireAuthModule,    
     FormsModule,
     ReactiveFormsModule
   ],
