@@ -10,15 +10,29 @@ import { auth } from 'firebase';
 export class AuthService {
 
   public user: User;  
+  
+  public userState = new Subject<User>();  
+  userState$ = this.userState.asObservable();
 
   constructor(
     public afAuth: AngularFireAuth,        
-  ) { }
+  ){
+    this.user = JSON.parse(sessionStorage.getItem('user'));
+    if (!this.user){
+      this.subscribeAngularFireAuthState();
+    }    
+  }
   
-  
-  // Communication with the menu
-  public navStateSource = new Subject<User>();
-  navState$ = this.navStateSource.asObservable();
+  subscribeAngularFireAuthState(){
+    // Check the auth state
+    this.afAuth.user.subscribe((state) => {            
+      if (state){               
+        this.user = {id: state.uid, email: state.email, username: state.displayName};
+        sessionStorage.setItem('user',JSON.stringify(this.user));        
+        this.userState.next(this.user);
+      }            
+    })
+  }
 
   login(email: string, password: string): Promise<any> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);      
@@ -36,17 +50,16 @@ export class AuthService {
         username: oAuthLoginObj.user.displayName,        
         email: oAuthLoginObj.user.email
       }
-      
-      //Add or rewrite the user to the document
-      //this.firebaseService.addUser(this.user);
-      this.navStateSource.next(this.user);        
+      sessionStorage.setItem('user',JSON.stringify(this.user));    
+      this.userState.next(this.user);        
     });          
   }
 
   logout() {
     this.afAuth.auth.signOut();
+    sessionStorage.removeItem('user');
     this.user = undefined;
-    this.navStateSource.next(this.user); 
+    this.userState.next(this.user); 
   }
 
 }

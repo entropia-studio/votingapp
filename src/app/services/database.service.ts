@@ -20,8 +20,7 @@ export class DatabaseService {
     return location.hostname == 'localhost' ? apiUrl + ':8080/api/polls'  : apiUrl + '/api/polls';
   }
 
-  getPolls(idUser: string | null): Observable<Poll[]>{
-    console.log('idUser',idUser)
+  getPolls(idUser: string | null): Observable<Poll[]>{    
     if (idUser){
       return this.http.get<Poll[]>(this.getUrlApi() + '/' + idUser);  
     }

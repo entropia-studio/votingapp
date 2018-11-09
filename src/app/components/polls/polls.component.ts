@@ -21,8 +21,7 @@ export class PollsComponent implements OnInit {
   ngOnInit() {
     const idUser = this.route.snapshot.paramMap.get('idUser');
     this.db.getPolls(idUser).subscribe(polls => {
-      this.polls = polls;
-      console.log('polls',polls)
+      this.polls = polls;      
     })
   }
 

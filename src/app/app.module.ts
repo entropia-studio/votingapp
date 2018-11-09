@@ -29,6 +29,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { PollAddComponent } from './components/poll-add/poll-add.component';
 import { PiechartFooterComponent } from './components/piechart-footer/piechart-footer.component';
+import { HighlightDirective } from './directives/highlight.directive';
 
 
 
@@ -41,7 +42,7 @@ import { PiechartFooterComponent } from './components/piechart-footer/piechart-f
     NotFoundComponent,
     PollDetailComponent,
     PiechartComponent,        
-    PollAddComponent, PiechartFooterComponent,
+    PollAddComponent, PiechartFooterComponent, HighlightDirective,
     
   ],  
   imports: [

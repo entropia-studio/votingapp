@@ -36,9 +36,7 @@ export class PollDetailComponent implements OnInit {
     private db: DatabaseService,
     private colorService: ColorService,
     private fb: FormBuilder,    
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit() {
     
@@ -60,42 +58,57 @@ export class PollDetailComponent implements OnInit {
         this.data1.push([item.name,0]);        
       }
     })      
-    console.log('data1:',this.data1);
+    
     // Get the slice colours
     this.colors = this.colorService.getColours(this.poll.items.length);
     this.config1 = new PieChartConfig('', 0.4,this.colors);
     this.elementId1 = 'pieChart';
   }
 
-  updatePoll(){    
-    var item_num = +this.pollForm.value.item;    
-    // Custom item, last option
-    if (item_num == this.poll.items.length){
-      var item_custom = this.pollForm.get('item_custom').value;
-      // Check if the item_custom has any value
-      if (item_custom == '') {
-        this.errors = true;
-        return;
-      }else{
-        this.errors = false;
-      }         
-      this.poll.items.push({
-        name: item_custom,
-        votes: [this.auth.user.id]
-      })
-      this.item_custom.setValue(this.item_custom_text);
-    }else{
-      if ('votes' in this.poll.items[item_num]){
-        this.poll.items[item_num].votes.push(this.auth.user.id);
-      }else{
-        this.poll.items[item_num].votes = [this.auth.user.id];
-      }        
-    }   
+  updatePoll(){        
+    var item_num = +this.pollForm.value.item; 
+    // User not logged can vote
+    var user_id = this.auth.user !== null ? this.auth.user.id : 'anonymousUser';   
+    // User check Custom item, last option. Must have a text value.
+    switch(item_num){
+      case this.poll.items.length:
+        this.setPollCustomItem(user_id);
+        break;
+      default:
+      this.setPoll(item_num, user_id);
+    }
+    
     this.db.updatePoll(this.poll).subscribe((poll) => {      
       this.setConfigChart(poll); 
     })
-
   }  
+
+  setPoll(item_num: number, user_id: string){
+    if ('votes' in this.poll.items[item_num]){
+      this.poll.items[item_num].votes.push(user_id);
+    }else{
+      this.poll.items[item_num].votes = [user_id];
+    }   
+  }
+
+  setPollCustomItem(user_id: string){
+    var item_custom = this.pollForm.get('item_custom').value;
+    // Check if the item_custom has any value    
+    if (item_custom == '') {
+      this.errors = true;
+      return;
+    }else{
+      this.errors = false;
+    }        
+    
+    this.item_custom.setValue(this.item_custom_text);
+
+    this.poll.items.push({
+      name: item_custom,
+      votes: [user_id]
+    })
+    
+  }
 
   checkCustomItem(){
     if (this.item_custom.value == this.item_custom_text){

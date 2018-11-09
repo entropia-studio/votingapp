@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Poll } from '../../interfaces/poll';
 import { User } from '../../interfaces/user';
-import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,17 +24,18 @@ export class PollAddComponent implements OnInit {
   })
 
   constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,  
+    private fb: FormBuilder,    
     private db: DatabaseService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private auth: AuthService,
+  ) {
+    this.user = this.auth.user;
+    if (!this.user){
+      router.navigate(['polls']);
+    }
+  }
 
-  ngOnInit() {
-    this.auth.navState$.subscribe( (user)=> {
-      this.user = user;             
-    });
-    console.log('pollForm',this.pollForm);
+  ngOnInit() {    
   }
 
   addPoll(){
