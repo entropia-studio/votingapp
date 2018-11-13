@@ -11,7 +11,9 @@ export const environment = {
     projectId: "nightlife-coordi-1538037506623",
     storageBucket: "nightlife-coordi-1538037506623.appspot.com",
     messagingSenderId: "585156913174"
-  }
+  },  
+  apiUrl: location.hostname == 'localhost' ?  
+  'http://localhost:8080/api/polls'  :  location.protocol + location.hostname + '/api/polls'  
 };
 
 /*
