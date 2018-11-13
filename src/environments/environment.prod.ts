@@ -8,6 +8,5 @@ export const environment = {
     storageBucket: "nightlife-coordi-1538037506623.appspot.com",
     messagingSenderId: "585156913174"
   },
-  apiUrl: location.hostname == 'localhost' ?  
-  'http://localhost:8080/api/polls'  :  document.URL + 'api/polls'  
+  apiUrl: 'https://entropia-votingapp.herokuapp.com/api/polls'  
 };
