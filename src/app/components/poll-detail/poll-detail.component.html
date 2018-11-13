@@ -30,7 +30,7 @@
                   <div class="col-2">
                       <button [disabled]="!pollFormValid" class="btn btn-primary" (click)="updatePoll()">Vote</button>
                   </div>  
-                  <div class="col-10 text-right" *ngIf="auth.user.id">                    
+                  <div class="col-10 text-right" *ngIf="auth.user">                    
                     <a class="btn btn-info" href="{{linkShareOnTwitter}}" target="_blank">
                         <i class="fab fa-twitter"></i>  Share on Twitter
                     </a>&nbsp;                    
