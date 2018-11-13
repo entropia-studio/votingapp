@@ -9,5 +9,5 @@ export const environment = {
     messagingSenderId: "585156913174"
   },
   apiUrl: location.hostname == 'localhost' ?  
-  'http://localhost:8080/api/polls'  :  location.protocol + location.hostname + '/api/polls'  
+  'http://localhost:8080/api/polls'  :  location.protocol + '//' + location.hostname + '/api/polls'  
 };
