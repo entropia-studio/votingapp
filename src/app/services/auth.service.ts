@@ -27,7 +27,12 @@ export class AuthService {
     // Check the auth state
     this.afAuth.user.subscribe((state) => {            
       if (state){               
-        this.user = {id: state.uid, email: state.email, username: state.displayName};
+        this.user = {
+          id: state.uid,
+          email: state.email,
+          username: state.displayName,         
+        };
+        
         sessionStorage.setItem('user',JSON.stringify(this.user));        
         this.userState.next(this.user);
       }            
@@ -48,8 +53,9 @@ export class AuthService {
       this.user = {
         id: oAuthLoginObj.user.uid,
         username: oAuthLoginObj.user.displayName,        
-        email: oAuthLoginObj.user.email
+        email: oAuthLoginObj.user.email,       
       }
+      
       sessionStorage.setItem('user',JSON.stringify(this.user));    
       this.userState.next(this.user);        
     });          

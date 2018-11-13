@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Poll } from 'src/app/interfaces/poll';
+import { User } from 'src/app/interfaces/user';
 import { DatabaseService } from '../../services/database.service';
 import { PieChartConfig } from '../../interfaces/pie-chart-config';
 import { ColorService } from '../../services/color.service';
@@ -29,23 +30,34 @@ export class PollDetailComponent implements OnInit {
   data1: any[];
   config1: PieChartConfig;
   elementId1: String;
+  linkShareOnTwitter: string;
 
   constructor(
     private auth: AuthService,
     private route: ActivatedRoute,      
     private db: DatabaseService,
     private colorService: ColorService,
-    private fb: FormBuilder,    
+    private fb: FormBuilder,   
+    private router: Router, 
   ) {}
 
   ngOnInit() {
     
-    const idPoll = this.route.snapshot.paramMap.get('idPoll');
+    const idPoll = this.route.snapshot.paramMap.get('idPoll');    
     this.db.getPoll(idPoll).subscribe(poll => {
       this.poll = poll;     
       this.setConfigChart(poll); 
+      this.linkShareOnTwitter = this.getTwitterText(poll.title);      
     })    
   }
+
+  getTwitterText(title: string): string {    
+    var url: string = location.protocol + '//' + location.hostname;   
+    url += this.router.url;  
+    var twitterIntent = 'https://twitter.com/intent/tweet';
+    return twitterIntent + '?url=' + encodeURI(url) + '&text=' + encodeURI(title + ' - ');
+  }
+
 
   setConfigChart(poll: Poll){
     //Piechart1 Data & Config
@@ -106,8 +118,13 @@ export class PollDetailComponent implements OnInit {
     this.poll.items.push({
       name: item_custom,
       votes: [user_id]
+    })    
+  }
+
+  deletePoll(idPoll: string): void{    
+    this.db.deletePoll(idPoll).subscribe(() => {      
+      this.router.navigate(['polls']);
     })
-    
   }
 
   checkCustomItem(){
@@ -119,6 +136,7 @@ export class PollDetailComponent implements OnInit {
       this.pollFormValid = true;
     }
   }
+
 
   get items(){
     return this.pollForm.get('items') as FormArray;

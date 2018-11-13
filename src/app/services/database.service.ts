@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Poll } from '../interfaces/poll';
+import { User } from '../interfaces/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -37,6 +38,10 @@ export class DatabaseService {
 
   updatePoll(poll: Poll): Observable<Poll>{
     return this.http.post<Poll>(this.getUrlApi() + '/update',poll,httpOptions);
+  }
+
+  deletePoll(idPoll): Observable<any>{
+    return this.http.delete(this.getUrlApi() + '/delete/' + idPoll, httpOptions);
   }
 
 }

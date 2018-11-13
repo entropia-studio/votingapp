@@ -7,6 +7,8 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 const assert = require('assert');
 
+
+
 // Avoid CORS problems
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -93,11 +95,11 @@ client.connect((error) => {
         }catch(e){
             handleError(e,res);
         }
-    })
+    })    
 
     app.delete('/api/polls/delete/:_id',(req,res) => {
         try{        
-            removeDocument(db,req.params._id,(response)=>{
+            removeDocument(db,req.params._id,(response) => {
                 res.send(response);                
             })            
         }catch(e){
@@ -179,7 +181,7 @@ const removeDocument = function(db,_id,callback){
         if (err) console.error(err);
         assert.equal(err, null);
         assert.equal(1, result.result.n);        
-        callback(`Removed the document with the _id equal to ${_id}`);
+        callback(result);
     })
 }
 
