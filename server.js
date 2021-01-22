@@ -31,7 +31,8 @@ const host = process.env.HOST;
 const port = process.env.DB_PORT;
 const dbName = process.env.DB;
 
-const url = `mongodb://${user}:${password}@${host}:${port}/${dbName}`;
+const url = `mongodb+srv://${user}:${password}@${host}/${dbName}?retryWrites=true&w=majority`;
+
 
 const client = new MongoClient(url,{ useNewUrlParser: true });
 
